@@ -4,6 +4,9 @@
 
 A natural-language gift recommender for Mumzworld shoppers. A parent types something like *"thoughtful gift for a friend with a 6-month-old, under 200 AED"* and the system returns a curated shortlist with reasoning, in English or Arabic. It combines a filter-first RAG pipeline (FAISS semantic search over a product catalog, hard-filtered by parsed price and age constraints) with a deterministic bilingual answer builder that guarantees no hallucinated product details — the LLM only contributes a warm intro sentence, all product facts come directly from the catalog.
 
+**Loom walkthrough (3 min):** 
+https://www.loom.com/share/8bcb9a62cd3d4c069866bf8aff780516
+
 ## Quick Start
 
 ```bash
