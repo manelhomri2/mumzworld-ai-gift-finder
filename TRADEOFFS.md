@@ -83,7 +83,9 @@ English queries above a cosine distance of 1.2 from all candidates are rejected 
 4. **Structured JSON output with schema validation** — return a proper typed response (`products: [{name, category, age, price, reason}]`) instead of a pre-formatted string, so frontend clients can render it however they need.
 5. **Automated eval runner** — script the 12 eval cases so they run on every commit and print a pass/fail table, instead of being run manually.
 
+---
 
+## Known Failure Modes
 
 | Failure | Behavior | Severity |
 |---|---|---|
