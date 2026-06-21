@@ -87,18 +87,25 @@ def _fallback_answer(products, lang="en"):
 
 
 def generate_answer(user, products, lang="en"):
+    # If no products matched, skip the LLM entirely — calling it here would
+    # produce a hallucinated intro celebrating products that don't exist.
+    if not products:
+        return _build_answer(products, lang)
+
     # For small/free models that struggle with consistent Arabic output,
     # we build the structured part ourselves and only ask the LLM for
     # a short warm intro sentence.
+    # We tell the LLM exactly how many products were found so it cannot
+    # misread numbers in the query (e.g. "5 AED") as age or product count.
+    count = len(products)
     if lang == "ar":
         language_instruction = "أجب باللغة العربية الفصحى فقط. لا تكتب أي كلمة بالإنجليزية."
-        intro_instruction = "اكتب جملة ترحيبية قصيرة وودية تمهيداً لقائمة الهدايا المقترحة (جملة واحدة فقط، بدون قائمة)."
+        intro_instruction = f"اكتب جملة ترحيبية قصيرة وودية تمهيداً لقائمة تضم {count} منتج مقترح (جملة واحدة فقط، بدون قائمة)."
     else:
         language_instruction = "Respond ONLY in English. Do not write any Arabic."
-        intro_instruction = "Write one short, warm, friendly opening sentence introducing the gift recommendations below (one sentence only, no list)."
+        intro_instruction = f"Write one short, warm, friendly opening sentence introducing the {count} gift recommendation(s) below (one sentence only, no list, no product details)."
 
-    prompt = f"""
-You are a warm baby gift advisor at Mumzworld.
+    prompt = f"""You are a warm baby gift advisor at Mumzworld.
 
 {language_instruction}
 
