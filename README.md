@@ -132,7 +132,7 @@ See `TRADEOFFS.md` for full details. Short version:
 
 **How they were used:**
 
-- Kiro was used in pair-coding mode: I described the intent, reviewed every suggestion, and overruled it several times — notably on the LLM architecture (Kiro initially generated a full LLM-generation approach; I stepped in to redesign it as a deterministic builder after seeing the first hallucinated price).
+- Kiro was used in pair-coding mode: I described the intent, reviewed every suggestion, and overruled it several times — notably on the LLM architecture.
 - The Arabic keyword filter and the relevance threshold for off-topic rejection were both written by hand after the agent's initial version silently returned irrelevant products on off-topic queries.
 - Prompt iteration for the LLM intro was done manually — the agent-generated prompt produced mixed-language output on Arabic queries until the explicit `"لا تكتب أي كلمة بالإنجليزية"` instruction was added.
 
