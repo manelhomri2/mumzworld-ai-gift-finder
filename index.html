@@ -117,7 +117,14 @@
       border: 1px solid var(--line); border-radius: 14px; padding: 12px;
       background: #fff; box-shadow: 0 6px 14px rgba(10,28,32,.05);
       animation: fadeSlide .45s ease-out;
+      display: flex; gap: 12px; align-items: flex-start;
     }
+    .source-img {
+      width: 80px; height: 80px; border-radius: 10px;
+      object-fit: cover; flex-shrink: 0;
+      border: 1px solid var(--line); background: #f9f0f0;
+    }
+    .source-body { flex: 1; min-width: 0; }
     .source-top { display: flex; justify-content: space-between; gap: 8px; align-items: start; margin-bottom: 5px; }
     .price { color: var(--teal); font-weight: 700; font-size: 17px; white-space: nowrap; }
     .source-title { font-weight: 700; margin: 0; font-family: "Space Grotesk", sans-serif; }
@@ -283,6 +290,18 @@ Newborn essentials with budget 150 AED</div>
       statusLabel.textContent   = on ? STATUS_LOAD[currentLang] : STATUS_READY[currentLang];
     }
 
+    // Category images — one curated Unsplash photo per category
+    const CATEGORY_IMAGES = {
+      "Toys":      "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=160&q=80",
+      "Clothing":  "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=160&q=80",
+      "Feeding":   "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=160&q=80",
+      "Baby Care": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=160&q=80",
+      "Health":    "https://images.unsplash.com/photo-1584515933487-779824d29309?w=160&q=80",
+      "Learning":  "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=160&q=80",
+      "Safety":    "https://images.unsplash.com/photo-1590099033615-be195f8d575c?w=160&q=80",
+    };
+    const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=160&q=80";
+
     function renderSources(items) {
       sourcesBox.innerHTML = "";
       if (!Array.isArray(items) || items.length === 0) {
@@ -295,6 +314,17 @@ Newborn essentials with budget 150 AED</div>
       items.forEach(item => {
         const card = document.createElement("div");
         card.className = "source-card";
+
+        // Category image
+        const img = document.createElement("img");
+        img.className = "source-img";
+        img.src = CATEGORY_IMAGES[item.category] || FALLBACK_IMAGE;
+        img.alt = item.category || "product";
+        img.loading = "lazy";
+
+        // Body wrapper
+        const body = document.createElement("div");
+        body.className = "source-body";
 
         const top = document.createElement("div");
         top.className = "source-top";
@@ -321,8 +351,11 @@ Newborn essentials with budget 150 AED</div>
         desc.style.margin = "6px 0 0";
         desc.textContent = item.description || "";
 
-        card.appendChild(top);
-        card.appendChild(desc);
+        body.appendChild(top);
+        body.appendChild(desc);
+
+        card.appendChild(img);
+        card.appendChild(body);
         sourcesBox.appendChild(card);
       });
     }
